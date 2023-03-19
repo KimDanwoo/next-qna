@@ -1,10 +1,12 @@
-import { Box, Center, Flex, Heading } from '@chakra-ui/react'
+import { Box, Button, Center, Flex, Heading } from '@chakra-ui/react'
 import { NextPage } from 'next'
 import { ServiceLayout } from '@/components/common/ServiceLayout'
 import { GoogleLoginBtn } from '@/components/common/GoogleLoginBtn'
 import { useAuth } from '@/context/auth_user.context'
+import { useRouter } from 'next/router'
 
 const IndexPage: NextPage = function () {
+  const router = useRouter()
   const { signInWithGoogle, authUser } = useAuth()
   console.info(authUser)
   return (
@@ -16,7 +18,25 @@ const IndexPage: NextPage = function () {
         </Flex>
       </Box>
       <Center mt="20">
-        <GoogleLoginBtn onClick={signInWithGoogle} />
+        {authUser?.uid ? (
+          <Button
+            size="lg"
+            width="300px"
+            maxW="md"
+            borderRadius="full"
+            bgColor="#4285f4"
+            color="white"
+            colorScheme="blue"
+            onClick={() => {
+              const path = authUser.email?.split('@')[0]
+              router.push(path ?? '')
+            }}
+          >
+            시작하기
+          </Button>
+        ) : (
+          <GoogleLoginBtn onClick={signInWithGoogle} />
+        )}
       </Center>
     </ServiceLayout>
   )
