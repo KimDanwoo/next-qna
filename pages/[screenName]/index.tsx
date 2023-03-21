@@ -17,23 +17,25 @@ import {
 } from '@chakra-ui/react'
 import { TriangleDownIcon } from '@chakra-ui/icons'
 import { GetServerSideProps, NextPage } from 'next'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import ResizeTextarea from 'react-textarea-autosize'
 import axios from 'axios'
 import MessageItem from '@/components/MessageItem'
 import { InMessage } from '@/models/message/in_message'
 import { useQuery } from 'react-query'
+import { AxiosResponse } from 'axios'
 interface Props {
   userInfo: InAuthUser | null
+  screenName: string
 }
 
-const UserHomePage: NextPage<Props> = function ({ userInfo }) {
+const UserHomePage: NextPage<Props> = function ({ userInfo, screenName }) {
   const [message, setMessage] = useState<string>('')
   const [messageList, setMessageList] = useState<InMessage[]>([])
   const [isAnonymous, setAnonymous] = useState<boolean>(true)
   const [page, setPage] = useState<number>(1)
   const [totalPages, setTotalPages] = useState<number>(1)
-
+  console.log(messageList)
   const [msgListFetchTrigger, setMsgListFetchTrigger] = useState<boolean>(false)
   const { authUser } = useAuth()
   const toast = useToast()
@@ -257,6 +259,7 @@ const UserHomePage: NextPage<Props> = function ({ userInfo }) {
                 displayName={userInfo.displayName ?? ''}
                 photoURL={userInfo.photoURL ?? 'https://bit.ly/broken-link'}
                 isOwner={isOwner}
+                screenName={screenName}
                 onSendComplete={() => fetchMessageinfo({ uid: userInfo.uid, messageId: message.id })}
               />
             ))}
@@ -286,15 +289,18 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ query }) =
     const port = process.env.PORT || '3000'
     const baseUrl = `${protocol}://${host}:${port}`
     const userInfoRes: AxiosResponse<InAuthUser> = await axios(`${baseUrl}/api/user.info/${screenName}`)
+    const screenNameToStr = Array.isArray(screenName) ? screenName[0] : screenName
     return {
       props: {
         userInfo: userInfoRes.data ?? null,
+        screenName: screenNameToStr,
       },
     }
   } catch (err) {
     return {
       props: {
         userInfo: null,
+        screenName: null,
       },
     }
   }

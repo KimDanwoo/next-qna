@@ -7,11 +7,7 @@ type CustomApiRequest = NextApiRequest & {
   status?: number
 }
 
-type CustomApiResponse = NextApiResponse & {
-  status?: number
-}
-
-async function add(req: CustomApiRequest, res: CustomApiResponse) {
+async function add(req: CustomApiRequest, res: NextApiResponse) {
   const { uid, email, displayName, photoURL } = req.body
   if (uid === undefined || uid === null) {
     throw new BadRequestErr('uid가 누락되었습니다.')
@@ -26,7 +22,7 @@ async function add(req: CustomApiRequest, res: CustomApiResponse) {
   res.status(500).json(addResult)
 }
 
-async function find(req: CustomApiRequest, res: CustomApiResponse) {
+async function find(req: CustomApiRequest, res: NextApiResponse) {
   const { screenName } = req.query
   if (screenName === undefined || screenName === null) {
     throw new BadRequestErr('screenName이 누락되었습니다.')
