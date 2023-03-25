@@ -1,6 +1,6 @@
 import { ServiceLayout } from '@/components/common/ServiceLayout'
 import { useAuth } from '@/context/auth_user.context'
-import { InAuthUser } from '@/models/in_auth_user'
+import { InMemberInfo } from '@/models/in_member.info'
 import { Avatar, Box, Button, Flex, Text } from '@chakra-ui/react'
 import { GetServerSideProps, NextPage } from 'next'
 import { useState } from 'react'
@@ -13,7 +13,7 @@ import { ChevronLeftIcon } from '@chakra-ui/icons'
 import Head from 'next/head'
 
 interface Props {
-  userInfo: InAuthUser | null
+  userInfo: InMemberInfo | null
   messageData: InMessage | null
   screenName: string
   baseUrl: string
@@ -102,7 +102,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ query }) =
     const host = process.env.HOST || 'localhost'
     const port = process.env.PORT || '3000'
     const baseUrl = `${protocol}://${host}:${port}`
-    const userInfoRes: AxiosResponse<InAuthUser> = await axios(`${baseUrl}/api/user.info/${screenName}`)
+    const userInfoRes: AxiosResponse<InMemberInfo> = await axios(`${baseUrl}/api/user.info/${screenName}`)
     const screenNameToStr = Array.isArray(screenName) ? screenName[0] : screenName
     if (userInfoRes.status !== 200 || userInfoRes.data === undefined || userInfoRes.data.uid === undefined) {
       return {

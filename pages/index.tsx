@@ -17,7 +17,7 @@ const IndexPage: NextPage = function () {
         </Flex>
       </Box>
       <Center mt="20">
-        {authUser?.uid ? (
+        {/* {authUser?.uid ? (
           <Button
             size="lg"
             width="300px"
@@ -33,9 +33,9 @@ const IndexPage: NextPage = function () {
           >
             시작하기
           </Button>
-        ) : (
-          <GoogleLoginBtn onClick={signInWithGoogle} />
-        )}
+        ) : ( */}
+        <GoogleLoginBtn onClick={signInWithGoogle} />
+        {/* )} */}
       </Center>
     </ServiceLayout>
   )

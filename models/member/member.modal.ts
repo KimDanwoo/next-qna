@@ -1,4 +1,4 @@
-import { InAuthUser } from '../in_auth_user'
+import { InMemberInfo } from './in_member.info'
 import FirebaseAdmin from '@/models/firebase_admin'
 
 const MEMBER_COL = 'members'
@@ -7,7 +7,7 @@ const Firestore = FirebaseAdmin.getInstance().Firestore
 
 type AddResult = { result: true; id: string } | { result: false; message: string }
 
-async function add({ uid, displayName, email, photoURL }: InAuthUser): Promise<AddResult> {
+async function add({ uid, displayName, email, photoURL }: InMemberInfo): Promise<AddResult> {
   try {
     const screenName = (email as string).replace('@gmail.com', '')
     const addResult = await Firestore.runTransaction(async (transaction) => {
@@ -37,13 +37,13 @@ async function add({ uid, displayName, email, photoURL }: InAuthUser): Promise<A
   }
 }
 
-async function findByName(screenName: string): Promise<InAuthUser | null> {
+async function findByName(screenName: string): Promise<InMemberInfo | null> {
   const membarRef = Firestore.collection(SCR_NAME_COL).doc(screenName)
   const memberDoc = await membarRef.get()
   if (memberDoc.exists === false) {
     return null
   }
-  const data = memberDoc.data() as InAuthUser
+  const data = memberDoc.data() as InMemberInfo
   return data
 }
 

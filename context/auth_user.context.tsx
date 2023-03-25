@@ -1,15 +1,15 @@
 import userFirebaseAuth from '@/hooks/use_firebase_auth'
-import { InAuthUser } from '@/models/in_auth_user'
+import { InMemberInfo } from '@/models/member/in_member.info'
 import { useContext, createContext } from 'react'
 
-interface InAuthUserContext {
-  authUser: InAuthUser | null
+interface InMemberInfoContext {
+  authUser: InMemberInfo | null
   loading: boolean
   signInWithGoogle: () => void
   signOut: () => void
 }
 
-const AuthUserContext = createContext<InAuthUserContext>({
+const AuthUserContext = createContext<InMemberInfoContext>({
   authUser: null,
   loading: true,
   signInWithGoogle: async () => ({ user: null, credential: null }),

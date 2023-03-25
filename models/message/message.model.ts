@@ -1,7 +1,7 @@
 import CustomServerError from '@/controllers/error/custom_server_error'
 import { firestore } from 'firebase-admin'
 import FirebaseAdmin from '../firebase_admin'
-import { InAuthUser } from '../in_auth_user'
+import { InMemberInfo } from '../member/in_member.info'
 import { InMessage, InMessageServer } from './in_message'
 
 const MEMBER_COL = 'members'
@@ -28,7 +28,7 @@ async function post({
     if (memberDoc.exists === false) {
       throw new CustomServerError({ statusCode: 400, message: '존재하지않는 사용자입니다.' })
     }
-    const memberInfo = memberDoc.data() as InAuthUser & { messageCount?: number }
+    const memberInfo = memberDoc.data() as InMemberInfo & { messageCount?: number }
     if (memberInfo.messageCount !== undefined) {
       messageCount = memberInfo.messageCount
     }
@@ -85,7 +85,7 @@ async function listWithPage({ uid, page = 1, size = 10 }: { uid: string; page?: 
     if (memberDoc.exists === false) {
       throw new CustomServerError({ statusCode: 400, message: '존재하지 않는 사용자입니다.' })
     }
-    const memberInfo = memberDoc.data() as InAuthUser & { messageCount?: number }
+    const memberInfo = memberDoc.data() as InMemberInfo & { messageCount?: number }
     const { messageCount = 0 } = memberInfo
     const totalCount = messageCount !== 0 ? messageCount - 1 : 0
     const remains = totalCount % size
