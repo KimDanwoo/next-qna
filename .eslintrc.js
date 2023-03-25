@@ -97,6 +97,6 @@ module.exports = {
         aspects: ['invalidHref'],
       },
     ],
-    'react/function-component-definition': [{ namedcomponents: 'arrow-function' }],
+    'react/function-component-definition': ['error', { namedComponents: 'function' }],
   },
 }

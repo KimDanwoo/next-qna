@@ -126,10 +126,10 @@ const MessageItem = ({ uid, displayName, photoURL, item, isOwner, onSendComplete
         </Box>
         {haveReply && (
           <Box pt={2}>
-            <Divider></Divider>
+            {/* <Divider></Divider> */}
             <Box display="flex" mt="2">
               <Box pt="2">
-                <Avatar size="xs" src={photoURL} mr="2"></Avatar>
+                <Avatar size="xs" src={photoURL} mr="2" />
               </Box>
               <Box borderRadius="md" p="2" width="full" bg="gray.100">
                 <Flex alignItems="center">

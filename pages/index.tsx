@@ -1,14 +1,13 @@
+import { useRouter } from 'next/router'
 import { Box, Button, Center, Flex, Heading } from '@chakra-ui/react'
 import { NextPage } from 'next'
 import { ServiceLayout } from '@/components/common/ServiceLayout'
 import { GoogleLoginBtn } from '@/components/common/GoogleLoginBtn'
 import { useAuth } from '@/context/auth_user.context'
-import { useRouter } from 'next/router'
 
 const IndexPage: NextPage = function () {
   const router = useRouter()
   const { signInWithGoogle, authUser } = useAuth()
-  console.info(authUser)
   return (
     <ServiceLayout title="danwoon" backgroundColor="gray.50">
       <Box maxW="md" mx="auto" pt="10">
