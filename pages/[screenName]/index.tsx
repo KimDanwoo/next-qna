@@ -280,6 +280,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ query }) =
     return {
       props: {
         userInfo: null,
+        screenName: '',
       },
     }
   }
@@ -300,7 +301,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ query }) =
     return {
       props: {
         userInfo: null,
-        screenName: null,
+        screenName: '',
       },
     }
   }
