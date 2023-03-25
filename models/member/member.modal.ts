@@ -14,7 +14,7 @@ async function add({ uid, displayName, email, photoURL }: InMemberInfo): Promise
       const membarRef = Firestore.collection(MEMBER_COL).doc(uid)
       const screenNameRef = Firestore.collection(SCR_NAME_COL).doc(screenName)
       const memberDoc = await transaction.get(membarRef)
-      if ((await memberDoc).exists) {
+      if (memberDoc.exists) {
         return false
       }
       const addData = {
@@ -22,6 +22,7 @@ async function add({ uid, displayName, email, photoURL }: InMemberInfo): Promise
         email,
         displayName: displayName ?? '',
         photoURL: photoURL ?? '',
+        screenName: screenName ?? '',
       }
       await transaction.set(membarRef, addData)
       await transaction.set(screenNameRef, addData)
