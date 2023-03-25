@@ -23,11 +23,13 @@ export default function userFirebaseAuth() {
             email: sighInResult.user.email,
             displayName: sighInResult.user.displayName,
             photoURL: sighInResult.user.photoURL,
+            screen: '',
           }),
         })
         console.info({ status: res.status })
         const resData = await res.json()
         console.info(resData)
+        return resData
       }
     } catch (err) {
       console.error(err)

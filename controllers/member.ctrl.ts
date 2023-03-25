@@ -16,10 +16,9 @@ async function add(req: CustomApiRequest, res: NextApiResponse) {
     throw new BadRequestErr('email이 누락되었습니다.')
   }
   const addResult = await MemberModel.add({ uid, email, displayName, photoURL, screenName })
-  console.info(addResult)
-  // if (addResult.result === false) {
-  //   res.status(500).json(addResult)
-  // }
+  if (addResult.result === false) {
+    res.status(500).json(addResult)
+  }
   return res.status(200).json(addResult)
 }
 
