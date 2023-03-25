@@ -27,7 +27,7 @@ async function add({ uid, displayName, email, photoURL }: InMemberInfo): Promise
       await transaction.set(screenNameRef, addData)
       return true
     })
-    console.info(addResult)
+    console.info('addResult', addResult)
     if (!addResult) {
       return { result: true, id: uid }
     }

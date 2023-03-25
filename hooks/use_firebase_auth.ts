@@ -23,10 +23,8 @@ export default function userFirebaseAuth() {
             email: sighInResult.user.email,
             displayName: sighInResult.user.displayName,
             photoURL: sighInResult.user.photoURL,
-            screen: '',
           }),
         })
-        console.info(res)
         return await res.json()
       }
     } catch (err) {
