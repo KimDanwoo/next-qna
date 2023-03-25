@@ -16,7 +16,7 @@ export default function userFirebaseAuth() {
         const res = await fetch('/api/member.add', {
           method: 'POST',
           headers: {
-            'content-type': 'application/json',
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             uid: sighInResult.user.uid,
@@ -26,8 +26,6 @@ export default function userFirebaseAuth() {
             screen: '',
           }),
         })
-        // console.info({ status: res.status })
-        // const resData = await res.json()
         console.info(res)
         return await res.json()
       }
