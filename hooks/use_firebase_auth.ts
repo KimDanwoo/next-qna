@@ -53,6 +53,7 @@ export default function userFirebaseAuth() {
       email: authState.email,
       photoURL: authState.photoURL,
       displayName: authState.displayName,
+      screenName: '',
     })
     setLoading(false)
   }
