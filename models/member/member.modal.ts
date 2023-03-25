@@ -22,7 +22,6 @@ async function add({ uid, displayName, email, photoURL }: InMemberInfo): Promise
         email,
         displayName: displayName ?? '',
         photoURL: photoURL ?? '',
-        screenName: screenName ?? '',
       }
       await transaction.set(membarRef, addData)
       await transaction.set(screenNameRef, addData)

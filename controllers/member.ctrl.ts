@@ -8,14 +8,14 @@ type CustomApiRequest = NextApiRequest & {
 }
 
 async function add(req: CustomApiRequest, res: NextApiResponse) {
-  const { uid, email, displayName, photoURL, screenName } = req.body
+  const { uid, email, displayName, photoURL } = req.body
   if (uid === undefined || uid === null) {
     throw new BadRequestErr('uid가 누락되었습니다.')
   }
   if (email === undefined || email === null) {
     throw new BadRequestErr('email이 누락되었습니다.')
   }
-  const addResult = await MemberModel.add({ uid, email, displayName, photoURL, screenName })
+  const addResult = await MemberModel.add({ uid, email, displayName, photoURL })
   if (addResult.result === false) {
     res.status(500).json(addResult)
   }
