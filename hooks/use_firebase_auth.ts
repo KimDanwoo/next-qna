@@ -27,8 +27,9 @@ export default function userFirebaseAuth() {
           }),
         })
         // console.info({ status: res.status })
-        const resData = await res.json()
-        return resData
+        // const resData = await res.json()
+        console.info(res)
+        return await res.json()
       }
     } catch (err) {
       console.error(err)
