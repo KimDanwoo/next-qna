@@ -33,6 +33,7 @@ async function find(req: CustomApiRequest, res: NextApiResponse) {
   if (findResult === null) {
     return res.status(404).end()
   }
+  console.info(findResult)
   res.status(200).json(findResult)
 }
 

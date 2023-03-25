@@ -21,6 +21,7 @@ import { ChangeEvent, useState } from 'react'
 import { useRouter } from 'next/router'
 import ResizeTextArea from 'react-textarea-autosize'
 import MoreBtnItem from './common/MoreBtnIcon'
+import axios from 'axios'
 
 interface Props {
   uid: string
@@ -42,14 +43,14 @@ const MessageItem = ({ uid, displayName, photoURL, item, isOwner, onSendComplete
     setReply(value)
   }
   const postReply = async () => {
-    const res = await fetch('/api/messages.add.reply', {
-      method: 'POST',
+    // axiox 추가요 테스트 중입니다.
+    const http = axios.create({
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        uid,
-        messageId: item.id,
-        reply,
-      }),
+    })
+    const res = await http.post('/api/messages.add.reply', {
+      uid,
+      messageId: item.id,
+      reply,
     })
     if (res.status < 300) {
       onSendComplete()

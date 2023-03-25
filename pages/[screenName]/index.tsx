@@ -24,6 +24,7 @@ import MessageItem from '@/components/MessageItem'
 import { InMessage } from '@/models/message/in_message'
 import { useQuery } from 'react-query'
 import { AxiosResponse } from 'axios'
+import api from '../../services/api'
 interface Props {
   userInfo: InMemberInfo | null
   screenName: string
@@ -39,6 +40,7 @@ const UserHomePage: NextPage<Props> = function ({ userInfo, screenName }) {
   const [msgListFetchTrigger, setMsgListFetchTrigger] = useState<boolean>(false)
   const { authUser } = useAuth()
   const toast = useToast()
+
   const handleChangeMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = e.target
     if (value) {
@@ -59,25 +61,6 @@ const UserHomePage: NextPage<Props> = function ({ userInfo, screenName }) {
     setAnonymous((prev) => !prev)
   }
 
-  // const fetchMessages = async (uid: string) => {
-  //   try {
-  //     const res = await fetch(`/api/messages.list?uid=${uid}&page=${page}&size=10`)
-  //     if (res.status === 200) {
-  //       const data: {
-  //         totalElements: number
-  //         totalPages: number
-  //         page: number
-  //         size: number
-  //         content: InMessage[]
-  //       } = await res.json()
-  //       setTotalPages(data.totalPages)
-  //       setMessageList((prev) => [...prev, ...data.content])
-  //       console.log(data)
-  //     }
-  //   } catch (err) {
-  //     console.error(err)
-  //   }
-  // }
   const fetchMessageinfo = async ({ uid, messageId }: { uid: string; messageId: string }) => {
     try {
       const res = await fetch(`/api/messages.info?uid=${uid}&messageId=${messageId}`)
@@ -122,11 +105,6 @@ const UserHomePage: NextPage<Props> = function ({ userInfo, screenName }) {
       },
     },
   )
-
-  // useEffect(() => {
-  //   if (userInfo === null) return
-  //   fetchMessages(userInfo.uid)
-  // }, [userInfo, msgListFetchTrigger, page])
 
   if (userInfo === null) {
     return <p>사용자를 찾을 수 없습니다.</p>
@@ -280,24 +258,21 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ query }) =
     return {
       props: {
         userInfo: null,
-        screenName: '',
+        screenName: '', 
       },
     }
   }
   try {
-    const protocol = process.env.PROTOCOL || 'http'
-    const host = process.env.HOST || 'localhost'
-    const port = process.env.PORT || '3000'
-    const baseUrl = `${protocol}://${host}:${port}`
-    const userInfoRes: AxiosResponse<InMemberInfo> = await axios(`${baseUrl}/api/user.info/${screenName}`)
     const screenNameToStr = Array.isArray(screenName) ? screenName[0] : screenName
+    const userInfoRes: AxiosResponse<InMemberInfo> = await api.getMemberInfo(screenNameToStr)
     return {
       props: {
-        userInfo: userInfoRes.data ?? null,
+        userInfo: userInfoRes?.data ?? null,
         screenName: screenNameToStr,
       },
     }
   } catch (err) {
+    console.log(err)
     return {
       props: {
         userInfo: null,
