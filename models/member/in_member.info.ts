@@ -3,5 +3,4 @@ export interface InMemberInfo {
   displayName?: string
   email?: string
   photoURL?: string
-  screenName: string
 }
