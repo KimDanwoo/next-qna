@@ -17,7 +17,7 @@ async function post(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function list(req: NextApiRequest, res: NextApiResponse) {
-  const { uid, page, size } = req.query
+  const { uid = 'W7cDNhagwMYWEKSSVvkUg9L0ZM02', page, size } = req.query
   if (uid === undefined) {
     throw new BadRequestErr('uid가 누락 되었습니다.')
   }
