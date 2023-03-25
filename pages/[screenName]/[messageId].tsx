@@ -1,6 +1,6 @@
 import { ServiceLayout } from '@/components/common/ServiceLayout'
 import { useAuth } from '@/context/auth_user.context'
-import { InMemberInfo } from '@/models/in_member.info'
+import { InMemberInfo } from '@/models/member/in_member.info'
 import { Avatar, Box, Button, Flex, Text } from '@chakra-ui/react'
 import { GetServerSideProps, NextPage } from 'next'
 import { useState } from 'react'
