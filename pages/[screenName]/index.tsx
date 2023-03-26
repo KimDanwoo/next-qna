@@ -40,7 +40,6 @@ const UserHomePage: NextPage<Props> = function ({ userInfo, screenName }) {
   const { authUser } = useAuth()
   const toast = useToast()
 
-  console.log(userInfo)
   const handleChangeMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = e.target
     if (value) {
@@ -267,12 +266,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ query }) =
     const userInfoRes: AxiosResponse<InMemberInfo> = await api.getMemberInfo(screenNameToStr)
     return {
       props: {
-        userInfo: userInfoRes?.data ?? null,
+        userInfo: userInfoRes.data,
         screenName: screenNameToStr,
       },
     }
   } catch (err) {
-    console.log(err)
     return {
       props: {
         userInfo: null,
