@@ -36,11 +36,11 @@ const UserHomePage: NextPage<Props> = function ({ userInfo, screenName }) {
   const [isAnonymous, setAnonymous] = useState<boolean>(true)
   const [page, setPage] = useState<number>(1)
   const [totalPages, setTotalPages] = useState<number>(1)
-  console.log(messageList)
   const [msgListFetchTrigger, setMsgListFetchTrigger] = useState<boolean>(false)
   const { authUser } = useAuth()
   const toast = useToast()
 
+  console.log(userInfo)
   const handleChangeMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = e.target
     if (value) {
@@ -258,7 +258,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ query }) =
     return {
       props: {
         userInfo: null,
-        screenName: '', 
+        screenName: '',
       },
     }
   }
