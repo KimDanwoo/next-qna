@@ -48,9 +48,9 @@ export default function userFirebaseAuth() {
     setLoading(true)
     setAuthUser({
       uid: authState.uid,
-      email: authState.email,
-      photoURL: authState.photoURL,
-      displayName: authState.displayName,
+      email: authState.email ?? '',
+      photoURL: authState.photoURL ?? '',
+      displayName: authState.displayName ?? '',
     })
     setLoading(false)
   }

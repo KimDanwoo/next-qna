@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import handleError from '@/controllers/error/handle_error'
 import checkSupportMessage from '@/controllers/error/check_support_message'
-import MessageCtrl from '@/controllers/message.ctrl'
+import MessageCtrl from '@/controllers/message/message.ctrl'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req

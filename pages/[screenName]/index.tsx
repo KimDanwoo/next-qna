@@ -25,6 +25,7 @@ import { InMessage } from '@/models/message/in_message'
 import { useQuery } from 'react-query'
 import { AxiosResponse } from 'axios'
 import api from '../../services/api'
+// import FirebaseClient from '@/models/firebase_client'
 interface Props {
   userInfo: InMemberInfo | null
   screenName: string
@@ -264,6 +265,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ query }) =
   try {
     const screenNameToStr = Array.isArray(screenName) ? screenName[0] : screenName
     const userInfoRes: AxiosResponse<InMemberInfo> = await api.getMemberInfo(screenNameToStr)
+
     return {
       props: {
         userInfo: userInfoRes.data,

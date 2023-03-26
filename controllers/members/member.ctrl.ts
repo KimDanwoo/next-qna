@@ -1,20 +1,26 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import MemberModel from '@/models/member/member.modal'
-import BadRequestErr from './error/bad_request_error'
+import BadRequestErr from '../error/bad_request_error'
+import validateParamWithData from '../req_validator'
+import { PostMemberReq } from './interface/PostMemberReq'
+import { JSCPostMemberReq } from './JSONSchema'
 
 type CustomApiRequest = NextApiRequest & {
   status?: number
 }
 
 async function add(req: CustomApiRequest, res: NextApiResponse) {
-  const { uid, email, displayName, photoURL } = req.body
-  if (uid === undefined || uid === null) {
-    throw new BadRequestErr('uid가 누락되었습니다.')
+  const validateRes = validateParamWithData<PostMemberReq>(
+    {
+      body: req.body,
+    },
+    JSCPostMemberReq,
+  )
+  if (!validateRes.result) {
+    throw new BadRequestErr(validateRes.errorMessage)
   }
-  if (email === undefined || email === null) {
-    throw new BadRequestErr('email이 누락되었습니다.')
-  }
+  const { uid, email, displayName, photoURL } = validateRes.data.body
   const addResult = await MemberModel.add({ uid, email, displayName, photoURL })
   if (addResult.result === false) {
     res.status(500).json(addResult)

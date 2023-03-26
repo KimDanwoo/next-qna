@@ -58,7 +58,6 @@ async function list({ uid }: { uid: string }) {
   const memberRef = Firestore.collection(MEMBER_COL).doc(uid)
   const listData = await Firestore.runTransaction(async (transaction) => {
     const memberDoc = await transaction.get(memberRef)
-    console.log('memberRef', memberRef)
     if (memberDoc.exists === false) {
       throw new CustomServerError({ statusCode: 400, message: '존재하지 않는 사용자입니다.' })
     }

@@ -21,7 +21,7 @@ import { ChangeEvent, useState } from 'react'
 import { useRouter } from 'next/router'
 import ResizeTextArea from 'react-textarea-autosize'
 import MoreBtnItem from './common/MoreBtnIcon'
-import axios from 'axios'
+import api from '@/services/api'
 
 interface Props {
   uid: string
@@ -42,16 +42,22 @@ const MessageItem = ({ uid, displayName, photoURL, item, isOwner, onSendComplete
     const { value } = e.target
     setReply(value)
   }
+
   const postReply = async () => {
-    // axiox 추가요 테스트 중입니다.
-    const http = axios.create({
-      headers: { 'Content-Type': 'application/json' },
-    })
-    const res = await http.post('/api/messages.add.reply', {
-      uid,
-      messageId: item.id,
-      reply,
-    })
+    const token = await FirebaseClient.getInstance().Auth.currentUser?.getIdToken()
+    if (token === undefined) {
+      toast({
+        title: '로그인한 사용자만 사용할 수 있는 메뉴입니다.',
+      })
+    }
+    const res = await api.postReplyMessage(
+      {
+        uid,
+        messageId: item.id,
+        reply,
+      },
+      token ? token : '',
+    )
     if (res.status < 300) {
       onSendComplete()
       setReply('')
