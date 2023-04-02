@@ -78,6 +78,10 @@ const MessagePage: NextPage<Props> = function ({ userInfo, messageData: initMsgD
             isOwner={isOwner}
             screenName={screenName}
             onSendComplete={() => fetchMessageinfo({ uid: userInfo.uid, messageId: messageData.id })}
+            onDeleteMessage={() => {
+              const path = authUser?.email?.split('@')[0]
+              window.location.href = `/${path}`
+            }}
           />
         </Box>
       </ServiceLayout>
