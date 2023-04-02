@@ -31,9 +31,19 @@ interface Props {
   item: InMessage
   screenName: string
   onSendComplete: () => void
+  onDeleteMessage: () => void
 }
 
-const MessageItem = ({ uid, displayName, photoURL, item, isOwner, onSendComplete, screenName }: Props) => {
+const MessageItem = ({
+  uid,
+  displayName,
+  photoURL,
+  item,
+  isOwner,
+  onSendComplete,
+  screenName,
+  onDeleteMessage,
+}: Props) => {
   const router = useRouter()
   const toast = useToast()
   const [reply, setReply] = useState<string>('')
@@ -84,6 +94,23 @@ const MessageItem = ({ uid, displayName, photoURL, item, isOwner, onSendComplete
       onSendComplete()
     }
   }
+  const deleteMessage = async () => {
+    const token = await FirebaseClient.getInstance().Auth.currentUser?.getIdToken()
+    if (token === undefined) {
+      toast({
+        title: '로그인한 사용자만 사용할 수 있는 메뉴입니다.',
+      })
+    }
+    await fetch('/api/messages.delete', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json', authorization: token ?? '' },
+      body: JSON.stringify({
+        uid,
+        messageId: item.id,
+      }),
+    })
+    onDeleteMessage()
+  }
 
   const isDeny = item.deny !== undefined ? item.deny === true : false
 
@@ -120,6 +147,7 @@ const MessageItem = ({ uid, displayName, photoURL, item, isOwner, onSendComplete
                 {!router.asPath.includes(item.id) && (
                   <MenuItem onClick={() => router.push(`/${screenName}/${item.id}`)}>상세보기</MenuItem>
                 )}
+                {isOwner && <MenuItem onClick={deleteMessage}>메세지 삭제</MenuItem>}
               </MenuList>
             </Menu>
           )}

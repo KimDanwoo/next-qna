@@ -190,6 +190,22 @@ async function updateMessage({ uid, messageId, deny = true }: { uid: string; mes
   return result
 }
 
+async function deleteMessage({ uid, messageId }: { uid: string; messageId: string }) {
+  const memberRef = Firestore.collection(MEMBER_COL).doc(uid)
+  const messageRef = Firestore.collection(MEMBER_COL).doc(uid).collection(MSG_COL).doc(messageId)
+  await Firestore.runTransaction(async (transaction) => {
+    const memberDoc = await transaction.get(memberRef)
+    const messageDoc = await transaction.get(messageRef)
+    if (!memberDoc.exists) {
+      throw new CustomServerError({ statusCode: 400, message: '존재하지 않는 사용자입니다.' })
+    }
+    if (!messageDoc.exists) {
+      throw new CustomServerError({ statusCode: 400, message: '존재하지 않는 메세지 입니다.' })
+    }
+    await transaction.delete(messageRef)
+  })
+}
+
 const MessageModel = {
   post,
   postReply,
@@ -197,6 +213,7 @@ const MessageModel = {
   listWithPage,
   getReply,
   updateMessage,
+  deleteMessage,
 }
 
 export default MessageModel

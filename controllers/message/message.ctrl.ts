@@ -8,12 +8,14 @@ import { DenyMessageReq } from './interface/DenyMessageReq'
 import { GetMessageListReq } from './interface/GetMessageListReq'
 import { PostMessageReq } from './interface/PostMessageReq'
 import { PostReplyReq } from './interface/PostReplyReq'
+import { DeleteMessageReq } from './interface/DeleteMessageReq'
 import {
   JSCDenyMessageReq,
   JSCGetMessagesReq,
   JSCGetMessageReq,
   JSCPostMessageReq,
   JSCPostReplyReq,
+  JSCDeleteMessageReq,
 } from './JSONSchema/index'
 async function post(req: NextApiRequest, res: NextApiResponse) {
   const validateRes = validateParamWithData<PostMessageReq>(
@@ -120,12 +122,28 @@ async function getReply(req: NextApiRequest, res: NextApiResponse) {
   return res.status(200).json(fetchData)
 }
 
+async function deleteMessage(req: NextApiRequest, res: NextApiResponse) {
+  const validateRes = validateParamWithData<DeleteMessageReq>(
+    {
+      body: req.body,
+    },
+    JSCDeleteMessageReq,
+  )
+  if (!validateRes.result) {
+    throw new BadRequestErr(validateRes.errorMessage)
+  }
+  const { uid, messageId } = validateRes.data.body
+  const fetchData = await MessageModel.deleteMessage({ uid, messageId })
+  return res.status(200).json(fetchData)
+}
+
 const MessageCtrl = {
   post,
   updateMessage,
   list,
   postReply,
   getReply,
+  deleteMessage,
 }
 
 export default MessageCtrl
