@@ -100,7 +100,7 @@ const UserHomePage: NextPage<Props> = function ({ userInfo, screenName }) {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
-        setTotalPages(data.data.totalPages)
+        setTotalPages(data.data.totalPages - 1)
         if (page === 1) {
           setMessageList(data.data.content)
           return
