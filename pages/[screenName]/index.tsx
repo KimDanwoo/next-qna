@@ -61,7 +61,7 @@ const UserHomePage: NextPage<Props> = function ({ userInfo, screenName }) {
     setAnonymous((prev) => !prev)
   }
 
-  const fetchMessageinfo = async ({ uid, messageId }: { uid: string; messageId: string }) => {
+  const fetchMessageInfo = async ({ uid, messageId }: { uid: string; messageId: string }) => {
     try {
       const res = await fetch(`/api/messages.info?uid=${uid}&messageId=${messageId}`)
       if (res.status === 200) {
@@ -242,7 +242,7 @@ const UserHomePage: NextPage<Props> = function ({ userInfo, screenName }) {
                 photoURL={userInfo.photoURL ?? 'https://bit.ly/broken-link'}
                 isOwner={isOwner}
                 screenName={screenName}
-                onSendComplete={() => fetchMessageinfo({ uid: userInfo.uid, messageId: message.id })}
+                onSendComplete={() => fetchMessageInfo({ uid: userInfo.uid, messageId: message.id })}
                 onDeleteMessage={() => deleteMessage(message.id)}
               />
             ))}

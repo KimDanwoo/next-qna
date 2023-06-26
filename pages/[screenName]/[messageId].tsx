@@ -22,7 +22,7 @@ interface Props {
 const MessagePage: NextPage<Props> = function ({ userInfo, messageData: initMsgData, screenName, baseUrl }) {
   const [messageData, setMessageData] = useState<null | InMessage>(initMsgData)
   const { authUser } = useAuth()
-  const fetchMessageinfo = async ({ uid, messageId }: { uid: string; messageId: string }) => {
+  const fetchMessageInfo = async ({ uid, messageId }: { uid: string; messageId: string }) => {
     try {
       const res = await fetch(`/api/messages.info?uid=${uid}&messageId=${messageId}`)
       if (res.status === 200) {
@@ -77,7 +77,7 @@ const MessagePage: NextPage<Props> = function ({ userInfo, messageData: initMsgD
             photoURL={userInfo.photoURL ?? 'https://bit.ly/broken-link'}
             isOwner={isOwner}
             screenName={screenName}
-            onSendComplete={() => fetchMessageinfo({ uid: userInfo.uid, messageId: messageData.id })}
+            onSendComplete={() => fetchMessageInfo({ uid: userInfo.uid, messageId: messageData.id })}
             onDeleteMessage={() => {
               const path = authUser?.email?.split('@')[0]
               window.location.href = `/${path}`
