@@ -26,5 +26,5 @@
     "incremental": true
   },
   "exclude": ["node_modules", "next.config.js", "shorturl.js", "sentry.js", "injectEnv.js"],
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": ["**/*.ts", "**/*.tsx", "next.config.js"]
 }
