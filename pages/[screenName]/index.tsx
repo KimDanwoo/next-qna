@@ -247,11 +247,11 @@ const UserHomePage: NextPage<Props> = function ({ userInfo, screenName }) {
               />
             ))}
         </VStack>
-        {totalPages > page && (
+        {/* {totalPages > page && (
           <Button width="full" mt="2" fontSize="sm" leftIcon={<TriangleDownIcon />} onClick={handleNextPage}>
             더보기
           </Button>
-        )}
+        )} */}
       </Box>
     </ServiceLayout>
   )
