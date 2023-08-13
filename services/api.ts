@@ -1,4 +1,4 @@
-import { http } from './index'
+import http from './http'
 
 const getMemberInfo = async (screenName: string) => {
   return await http.get(`/api/user.info/${screenName}`)
