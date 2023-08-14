@@ -60,17 +60,29 @@ const MessageItem = ({
         title: '로그인한 사용자만 사용할 수 있는 메뉴입니다.',
       })
     }
-    const res = await api.postReplyMessage(
-      {
-        uid,
-        messageId: item.id,
-        reply,
-      },
-      token ? token : '',
-    )
-    if (res.status < 300) {
-      onSendComplete()
-      setReply('')
+    try {
+      const res = await fetch(`/api/messages.add.reply?uid=${uid}&messageId=${item.id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', authorization: token ?? '' },
+        body: JSON.stringify({
+          reply,
+        }),
+      })
+      if (res.status < 300) {
+        onSendComplete()
+        setReply('')
+      }
+    } catch (err) {
+      // const res = await api.postReplyMessage(
+      //   {
+      //     uid,
+      //     messageId: item.id,
+      //     reply,
+      //   },
+      //   token ? token : '',
+      // )
+
+      console.err(err)
     }
   }
 
