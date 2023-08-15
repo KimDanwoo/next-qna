@@ -21,7 +21,6 @@ import { ChangeEvent, useState } from 'react'
 import { useRouter } from 'next/router'
 import ResizeTextArea from 'react-textarea-autosize'
 import MoreBtnItem from './common/MoreBtnIcon'
-import api from '@/services/api'
 
 interface Props {
   uid: string
@@ -61,7 +60,11 @@ const MessageItem = ({
       })
     }
     try {
-      const res = await fetch(`/api/messages.add.reply?uid=${uid}&messageId=${item.id}`, {
+      const protocol = process.env.PROTOCOL || 'http'
+      const host = process.env.HOST || 'localhost'
+      const port = process.env.PORT || '3000'
+      const baseUrl = `${protocol}://${host}:${port}`
+      const res = await fetch(`${baseUrl}/api/messages.add.reply?uid=${uid}&messageId=${item.id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', authorization: token ?? '' },
         body: JSON.stringify({
@@ -73,15 +76,6 @@ const MessageItem = ({
         setReply('')
       }
     } catch (err) {
-      // const res = await api.postReplyMessage(
-      //   {
-      //     uid,
-      //     messageId: item.id,
-      //     reply,
-      //   },
-      //   token ? token : '',
-      // )
-
       console.err(err)
     }
   }
@@ -159,7 +153,7 @@ const MessageItem = ({
                 {!router.asPath.includes(item.id) && (
                   <MenuItem onClick={() => router.push(`/${screenName}/${item.id}`)}>상세보기</MenuItem>
                 )}
-                {isOwner && <MenuItem onClick={deleteMessage}>메세지 삭제</MenuItem>}
+                {/* {isOwner && <MenuItem onClick={deleteMessage}>메세지 삭제</MenuItem>} */}
               </MenuList>
             </Menu>
           )}
@@ -173,7 +167,6 @@ const MessageItem = ({
         </Box>
         {haveReply && (
           <Box pt={2}>
-            {/* <Divider></Divider> */}
             <Box display="flex" mt="2">
               <Box pt="2">
                 <Avatar size="xs" src={photoURL} mr="2" />
