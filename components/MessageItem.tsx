@@ -76,7 +76,7 @@ const MessageItem = ({
         setReply('')
       }
     } catch (err) {
-      console.err(err)
+      console.log(err)
     }
   }
 
