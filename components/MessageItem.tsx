@@ -30,19 +30,9 @@ interface Props {
   item: InMessage
   screenName: string
   onSendComplete: () => void
-  onDeleteMessage: () => void
 }
 
-const MessageItem = ({
-  uid,
-  displayName,
-  photoURL,
-  item,
-  isOwner,
-  onSendComplete,
-  screenName,
-  onDeleteMessage,
-}: Props) => {
+const MessageItem = ({ uid, displayName, photoURL, item, isOwner, onSendComplete, screenName }: Props) => {
   const router = useRouter()
   const toast = useToast()
   const [reply, setReply] = useState<string>('')

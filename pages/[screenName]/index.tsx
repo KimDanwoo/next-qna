@@ -81,9 +81,9 @@ const UserHomePage: NextPage<Props> = function ({ userInfo, screenName }) {
     }
   }
 
-  const deleteMessage = (messageId: string) => {
-    setMessageList(messageList.filter((message) => message.id !== messageId))
-  }
+  // const deleteMessage = (messageId: string) => {
+  //   setMessageList(messageList.filter((message) => message.id !== messageId))
+  // }
 
   const messageListQueryKey = ['messageList', userInfo?.uid, page, msgListFetchTrigger]
   useQuery(
@@ -243,7 +243,7 @@ const UserHomePage: NextPage<Props> = function ({ userInfo, screenName }) {
                 isOwner={isOwner}
                 screenName={screenName}
                 onSendComplete={() => fetchMessageInfo({ uid: userInfo.uid, messageId: message.id })}
-                onDeleteMessage={() => deleteMessage(message.id)}
+                // onDeleteMessage={() => deleteMessage(message.id)}
               />
             ))}
         </VStack>
