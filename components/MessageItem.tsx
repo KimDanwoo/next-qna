@@ -100,23 +100,23 @@ const MessageItem = ({
       onSendComplete()
     }
   }
-  const deleteMessage = async () => {
-    const token = await FirebaseClient.getInstance().Auth.currentUser?.getIdToken()
-    if (token === undefined) {
-      toast({
-        title: '로그인한 사용자만 사용할 수 있는 메뉴입니다.',
-      })
-    }
-    await fetch('/api/messages.delete', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json', authorization: token ?? '' },
-      body: JSON.stringify({
-        uid,
-        messageId: item.id,
-      }),
-    })
-    onDeleteMessage()
-  }
+  // const deleteMessage = async () => {
+  //   const token = await FirebaseClient.getInstance().Auth.currentUser?.getIdToken()
+  //   if (token === undefined) {
+  //     toast({
+  //       title: '로그인한 사용자만 사용할 수 있는 메뉴입니다.',
+  //     })
+  //   }
+  //   await fetch('/api/messages.delete', {
+  //     method: 'DELETE',
+  //     headers: { 'Content-Type': 'application/json', authorization: token ?? '' },
+  //     body: JSON.stringify({
+  //       uid,
+  //       messageId: item.id,
+  //     }),
+  //   })
+  //   onDeleteMessage()
+  // }
 
   const isDeny = item.deny !== undefined ? item.deny === true : false
 
