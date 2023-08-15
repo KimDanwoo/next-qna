@@ -50,11 +50,7 @@ const MessageItem = ({ uid, displayName, photoURL, item, isOwner, onSendComplete
       })
     }
     try {
-      const protocol = process.env.PROTOCOL || 'http'
-      const host = process.env.HOST || 'localhost'
-      const port = process.env.PORT || '3000'
-      const baseUrl = `${protocol}://${host}:${port}`
-      const res = await fetch(`${baseUrl}/api/messages.add.reply?uid=${uid}&messageId=${item.id}`, {
+      const res = await fetch(`/api/messages.add.reply?uid=${uid}&messageId=${item.id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', authorization: token ?? '' },
         body: JSON.stringify({
